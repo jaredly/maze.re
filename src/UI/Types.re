@@ -48,9 +48,11 @@ module Board = {
 module Alg = {
   type t =
     | DFS
-    | BFS
-    | Random;
-  let all = [|DFS, BFS, Random|];
+    | BFS;
+    /* | Random; */
+  let all = [|DFS, BFS,
+  /* Random */
+  |];
   let tomod = (alg) =>
     switch alg {
     | DFS => (
@@ -64,19 +66,19 @@ module Alg = {
          )): (module Generator.T)
       )
     | BFS => (module NewBFS)
-    | Random => (module Random2)
+    /* | Random => (module Random2) */
     };
   let name = (alg) =>
     switch alg {
     | DFS => "DFS"
     | BFS => "BFS"
-    | Random => "Random"
+    /* | Random => "Random" */
     };
   let by_name = (name) =>
     switch name {
     | "DFS" => Some(DFS)
     | "BFS" => Some(BFS)
-    | "Random" => Some(Random)
+    /* | "Random" => Some(Random) */
     | _ => None
     };
 };

@@ -9,6 +9,7 @@
       "subdirs": true,
     },
   ],
+  "namespace": true,
   "refmt": 3,
   "warnings": {
     "number": "-44-102"
