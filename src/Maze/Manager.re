@@ -26,6 +26,7 @@ module F = (Board: SimpleBoard.T, Gen: Generator.T) => {
          []
        )
   };
+  let randInit = () => Random.self_init();
   let init = ((width, height), hint_size) => {
     let (shape, scale, outsize) = Board.auto_size((width, height), hint_size);
     let coords = Board.coordinates(shape) |> Array.of_list;
@@ -59,9 +60,9 @@ module F = (Board: SimpleBoard.T, Gen: Generator.T) => {
       },
       coords
     );
-  let coordCount = ({State.coords}) => List.length(coords);
+  let coordCount = ({State.coords}) => Array.length(coords);
   let randomCoord = ({State.coords, shape, scale}) => {
-    let coord = List.nth(coords, Random.int(List.length(coords)));
+    let coord = coords[Random.int(Array.length(coords))];
     Board.offset(shape, scale, coord)
   };
   let all_walls = ({State.shape, scale, coords, coord_map, gen_state}) => {
