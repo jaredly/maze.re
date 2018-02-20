@@ -1,0 +1,16 @@
+{
+  "name": "mazer",
+  "bsc-flags": ["-bs-no-version-header", "-bs-super-errors"],
+  "bs-dependencies": [],
+  "reason": {"react-jsx": 2},
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true,
+    },
+  ],
+  "refmt": 3,
+  "warnings": {
+    "number": "-44-102"
+  }
+}

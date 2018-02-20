@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "bs-platform": "bsansouci/bsb-native#fast"
+  },
+  "scripts": {
+    "build": "bsb -make-world",
+    "start": "bsb -make-world -w",
+    "clean": "bsb -clean-world",
+    "pages": "rsync -r public/ pages",
+    "webpack": "webpack -w"
+  }
+}
