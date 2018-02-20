@@ -10,6 +10,7 @@ module type T = {
   /* TODO need to make a "output coord" or something? */
   let auto_size:
     ((float, float), int) => (shape, float /* unit size */, (float, float) /* full size */);
+  /** Turn a boardShape and a Coordinate with a scale into a 2d position */
   let offset: (shape, float, Coord.t) => (float, float);
   let tile_center: (shape, float, Coord.t) => (float, float);
   let tile_at_coord: (shape, Coord.t) => Shape.t;

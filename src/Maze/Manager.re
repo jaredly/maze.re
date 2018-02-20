@@ -59,6 +59,11 @@ module F = (Board: SimpleBoard.T, Gen: Generator.T) => {
       },
       coords
     );
+  let coordCount = ({State.coords}) => List.length(coords);
+  let randomCoord = ({State.coords, shape, scale}) => {
+    let coord = List.nth(coords, Random.int(List.length(coords)));
+    Board.offset(shape, scale, coord)
+  };
   let all_walls = ({State.shape, scale, coords, coord_map, gen_state}) => {
     let edges = Gen.edges(gen_state);
     Array.fold_left(
