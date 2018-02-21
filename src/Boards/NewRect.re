@@ -28,4 +28,7 @@ let offset = (_shape, scale, (x, y)) => ((fi(x) +. 0.5) *. scale, (fi(y) +. 0.5)
 
 let tile_center = offset;
 
-let from_point = (_, _, _) => (0, 0);
+let from_point = (_shape, scale, (x, y)) => {
+  (iof((x /. scale)),
+  iof((y /. scale)))
+};

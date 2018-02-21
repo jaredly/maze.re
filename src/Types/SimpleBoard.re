@@ -12,8 +12,11 @@ module type T = {
     ((float, float), int) => (shape, float /* unit size */, (float, float) /* full size */);
   /** Turn a boardShape and a Coordinate with a scale into a 2d position */
   let offset: (shape, float, Coord.t) => (float, float);
+  /** tile_center is sometimes the same as offset, but in the case of triangles it is not. Represents the visual center of a tile. */
   let tile_center: (shape, float, Coord.t) => (float, float);
+  /** Get the shape of a given coord. */
   let tile_at_coord: (shape, Coord.t) => Shape.t;
+  /** Find the coord at the given point. */
   let from_point: (shape, float, (float, float)) => Coord.t;
 };
 
