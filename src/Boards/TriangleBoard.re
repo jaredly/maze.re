@@ -1,5 +1,6 @@
 include SimpleBoard.FromTile(EquilateralTriangle);
 
+/** The height of the triangle, in rows */
 type shape = int;
 
 let coordinates = (size: shape) => {
@@ -47,16 +48,19 @@ let tile_center = (shape, scale, (x, y)) => {
 };
 
 let from_point = (shape, scale, (x, y)) => {
-  /*x = (fx - fy) / 2.0 * scale + ((fi shape) / 2.0) * scale,
-    x = ((fx - fy) + shape) / 2.0 * scale;
-    x * 2.0 / scale = fx - fy + shape;
-    x * 2.0 / scale - shape + fy = fx
-    fx = x * 2.0 / scale - shape + fy
-    y = (fy + 0.5) * hsq3 * scale
-    fy = y / hsq3 / scale - 0.5;*/
   let fshape = fi(shape);
+
   open Utils.Float;
-  let fy = y / hsq3 / scale - 0.5;
-  let fx = x * 2.0 / scale - fshape + fy;
-  (int_of_float(fx), int_of_float(fy))
+  /** hsq3 * scale is the height of the triangle, where scale is the width (length of a side) */
+  let fy = y / hsq3 / scale;
+  let fx = x * 2.0 / scale - fshape + floor(fy);
+  let ix = int_of_float(fx);
+  let remy = fy -. floor(fy);
+  let remx = fx -. floor(fx);
+  let ix = if (ix mod 2 == 0) {
+    (remy > remx) ? ix : Pervasives.(ix + 1)
+  } else {
+    (remx + remy < 1.0) ? ix : Pervasives.(ix + 1)
+  };
+  (ix, int_of_float(fy))
 };
