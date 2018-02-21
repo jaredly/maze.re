@@ -1,5 +1,6 @@
 {
   "name": "maze.re",
+  "version": "0.0.1",
   "devDependencies": {
     "bs-platform": "bsansouci/bsb-native#fast"
   },
