@@ -30,7 +30,7 @@ let auto_size = ((cwidth, cheight), hint_num) => {
     if (cwidth * width_to_height_ratio < cheight) {
       let size = cwidth / across;
       let height = size * width_to_height_ratio * (across + 0.25);
-      Js.log((cwidth, height));
+      /* Js.log((cwidth, height)); */
       (double, size, (cwidth, height))
     } else {
       let width = cheight / width_to_height_ratio;

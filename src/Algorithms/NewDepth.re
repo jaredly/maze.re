@@ -5,11 +5,64 @@ module RandomConfig = (()) => {
   let joinOnHit = Random.float(1.0);
 };
 
+module type FrontierT = {
+  type t('a);
+  let length: t('a) => int;
+  let empty: unit => t('a);
+  let getAndRemoveRandom: t('a) => (option('a), t('a));
+  let appendList: (t('a), list('a)) => t('a);
+};
+
+/* module FrontierArray: FrontierT = {
+  type t('a) = array('a);
+  let length = x => Array.length(x);
+  let empty = () => [||];
+  let getAndRemoveRandom = frontier =>
+    switch (Js.Array.spliceInPlace(
+      ~pos=Random.int(Array.length(frontier)),
+      ~remove=1,
+      ~add=[||],
+      frontier
+    )) {
+      | [|item|] => (Some(item), frontier)
+      | _ => (None, frontier)
+    };
+  let appendList = (frontier, list) => Array.append(Array.of_list(list), frontier);
+}; */
+
+module Frontier: FrontierT = {
+  type t('a) = (int, list('a));
+  let length = ((l, _)) => l;
+  let empty = () => (0, []);
+  let getAndRemoveRandom = ((length, items)) => {
+    if (length == 0) {
+      (None, (0, []))
+    } else {
+      let pos = Random.int(length);
+      let rec loop = (items, n) => {
+        switch (n, items) {
+        | (0, [item, ...rest]) => (item, rest)
+        | (_, [item, ...rest]) => {
+          let (found, after) = loop(rest, n - 1);
+          (found, [item, ...after])
+        }
+        | (_, []) => failwith("Invalid random index")
+        }
+      };
+      let (found, after) = loop(items, pos);
+      (Some(found), (length - 1, after))
+    }
+  };
+  let appendList = ((n, items), list) => {
+    (n + List.length(list), items @ list)
+  };
+};
+
 module F = (Config: Config) => {
   type state = {
     visited: array(int),
     edges: Generator.PairSet.t,
-    frontier: array((int, int)),
+    frontier: Frontier.t((int, int)),
     step: int,
     active: option(((int, int), int))
   };
@@ -18,7 +71,7 @@ module F = (Config: Config) => {
     {
       visited: Array.make(size, 0),
       edges: Generator.PairSet.empty,
-      frontier: [||],
+      frontier: Frontier.empty(),
       step: 0,
       active: Some(((start, start), 0))
     }
@@ -37,19 +90,12 @@ module F = (Config: Config) => {
     };
   let get_new = (state) => {
     let frontier = state.frontier;
-    if (Array.length(frontier) === 0) {
+    if (Frontier.length(frontier) === 0) {
       {...state, active: None}
     } else {
-      switch (
-        Js.Array.spliceInPlace(
-          ~pos=Random.int(Array.length(frontier)),
-          ~remove=1,
-          ~add=[||],
-          frontier
-        )
-      ) {
-      | [|item|] => {...state, frontier, active: Some((item, 0))}
-      | _ => {...state, frontier}
+      switch (Frontier.getAndRemoveRandom(frontier)) {
+      | (Some(item), frontier) => {...state, frontier, active: Some((item, 0))}
+      | (None, frontier) => {...state, frontier}
       }
     }
   };
@@ -81,7 +127,7 @@ module F = (Config: Config) => {
                 loop(rest, true)
               }
             } else {
-              let frontier = Array.append(Array.of_list(rest), state.frontier);
+              let frontier = Frontier.appendList(state.frontier, rest);
               {
                 ...state,
                 frontier,
@@ -96,7 +142,7 @@ module F = (Config: Config) => {
       }
     }
   };
-  let step__ = (get_adjacent, state) =>
+  /* let step__ = (get_adjacent, state) =>
     switch state.frontier {
     | [||] => state
     | nonEmptyArray =>
@@ -126,7 +172,7 @@ module F = (Config: Config) => {
         }
       | _ => assert false
       }
-    };
+    }; */
   /* hmm these can be shared */
   let rec loop_to_end = (get_adjacent, state) =>
     if (! finished(state)) {

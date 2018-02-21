@@ -1,5 +1,5 @@
 {
-  "name": "mazer",
+  "name": "maze.re",
   "bsc-flags": ["-bs-no-version-header", "-bs-super-errors"],
   "bs-dependencies": [],
   "reason": {"react-jsx": 2},

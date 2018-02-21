@@ -1,5 +1,5 @@
 {
-  "name": "mazer",
+  "name": "maze.re",
   "devDependencies": {
     "bs-platform": "bsansouci/bsb-native#fast"
   },

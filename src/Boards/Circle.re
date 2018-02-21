@@ -10,7 +10,8 @@ type direction =
   | UpLeft
   | UpRight;
 
-let pi: float = [%bs.raw "Math.PI"];
+let pi: float = 3.14159;
+/* [%bs.raw "Math.PI"]; */
 
 let tau = pi *. 2.0;
 

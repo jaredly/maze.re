@@ -24,7 +24,8 @@ let auto_size = ((cwidth, cheight), hint_num) => {
   ((width * 2, height), size, (fi(width) *. size, fi(height) *. size))
 };
 
-let tau: float = [%bs.raw "Math.PI * 2"];
+let tau: float = 3.14159 *. 2.;
+/* [%bs.raw "Math.PI * 2"]; */
 
 let theta = tau /. 8.0 -. atan(0.5);
 

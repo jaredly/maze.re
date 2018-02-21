@@ -26,7 +26,8 @@ let auto_size = ((cwidth, cheight), hint_num) => {
 
 let offset = (_shape, scale, (x, y)) => ((fi(x / 2) +. 0.5) *. scale, (fi(y) +. 0.5) *. scale);
 
-let tau: float = [%bs.raw "Math.PI * 2"];
+/* let tau: float = [%bs.raw "Math.PI * 2"]; */
+let tau: float = 3.14159 *. 2.;
 
 let theta = tau /. 8.0 -. atan(0.5);
 
