@@ -64,12 +64,13 @@ let from_point = ((width, height), scale, (x, y)) => {
   let ix = int_of_float(fx);
   let remy = fy -. floor(fy);
   let remx = fx -. floor(fx);
-  let ix = if (ix mod 2 == 0) {
+  let iy = int_of_float(fy);
+  let ix = if (ix mod 2 == iy mod 2) {
     (remy > remx) ? ix : Pervasives.(ix + 1)
   } else {
     (remx + remy < 1.0) ? ix : Pervasives.(ix + 1)
   };
-  (ix, int_of_float(fy))
+  (ix, iy)
 };
 
 
