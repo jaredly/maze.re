@@ -144,4 +144,17 @@ let tile_at_coord = (_size, (x, y)) => {
   Shape.Arc(((0.0, 0.0), fi(y), fi(y + 1), tau *. fi(x) /. count, tau *. fi(x + 1) /. count))
 };
 
-let from_point = (_, _, _) => (0, 0);
+let from_point = (size, scale, (x, y)) => {
+  let (cx, cy) = offset(size, scale, ());
+  let dx = x -. cx;
+  let dy = y -. cy;
+  let theta = atan2(dy, dx);
+  /* let theta = theta < 0. ? theta +. tau : theta; */
+  let dist = sqrt(dx *. dx +. dy *. dy);
+  let y = dist /. scale |> int_of_float;
+  let around = theta /. tau *. fi(counts[y]);
+  let x = (around) |> int_of_float;
+  let x = x - (theta > pi || theta < 0. ? 1 : 0);
+  (x, y)
+
+};

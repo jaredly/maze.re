@@ -45,4 +45,12 @@ let tile_center = (shape, scale, (x, y)) => {
   }
 };
 
-let from_point = (_, _, _) => (0, 0);
+let from_point = (shape, scale, (x, y)) => {
+  let fy = y /. scale;
+  let fx = x /. scale;
+  let ix = iof(fx);
+  let iy = iof(fy);
+  let remx = fx -. floor(fx);
+  let remy = fy -. floor(fy);
+  (ix * 2 + (remx +. remy > 1.0 ? 1 : 0), iy)
+};
