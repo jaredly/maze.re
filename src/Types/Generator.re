@@ -2,7 +2,7 @@ module PairSet =
   Set.Make(
     {
       type t = (int, int);
-      let compare = (a, b) => compare(a, b);
+      let compare = compare;
     }
   );
 
@@ -10,7 +10,7 @@ module IntMap =
   Map.Make(
     {
       type t = int;
-      let compare = (a, b) => compare(a, b);
+      let compare = compare;
     }
   );
 
@@ -19,7 +19,7 @@ type get_adjacent = int => list(int);
 module type T = {
   type state;
   let edges: state => PairSet.t; /* pairs are *ordered*, lower first */
-  let visited: state => array(int); /* 0 means unvisited */
+  let visited: state => array(int); /* 0 means unvisited, otherwise indicates "age" */
   let max_age: state => int;
   /* just does everything */
   let run: (int, get_adjacent) => state;

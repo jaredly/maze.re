@@ -68,6 +68,21 @@ module F = (Board: SimpleBoard.T, Gen: Generator.T) => {
   let allCoords = ({State.coords, shape, scale}) => {
     coords |> Array.map(coord => (coord, Board.tile_center(shape, scale, coord)))
   };
+  let distanceFromCoord = ({State.shape, count, coords, coord_map, gen_state}, origin) => {
+    let edges = Gen.edges(gen_state);
+
+    let originIndex = CoordMap.find(origin, coord_map);
+    let filtered_adjacent = index => {
+      let adjacent = get_adjacent(shape, coords, coord_map, index);
+      adjacent |> List.filter(next => {
+        let pair = next < index ? (next, index) : (index, next);
+        Generator.PairSet.mem(pair, edges)
+      })
+    };
+    let finished = NewBFS.runWithoutShuffling(count, filtered_adjacent, originIndex);
+
+    finished.visited |> Array.mapi((i, distance) => (coords[i], distance))
+  };
   let all_walls = ({State.shape, scale, coords, coord_map, gen_state}) => {
     let edges = Gen.edges(gen_state);
     Array.fold_left(

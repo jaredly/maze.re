@@ -21,6 +21,12 @@ Cross-platform ready (can compile to js via bucklescript, or to native).
 - [x] Bredth first w/ random frontier choices (somewhat less boring)
 - [x] Depth first search w/ random pruning (this is the one that will give you interesting mazes)
 
+### TODO
+
+- [x] make a "distance from starting point" function so that the goal is a predictable distance from the start
+- [ ] make a more complicated algorithm that is "number of branch choices from the starting point"
+      because the current one counts a single path of 5 blocks as "5 farther away", but it's not "5 harder"
+
 ### API
 
 ```
