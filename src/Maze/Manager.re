@@ -61,12 +61,19 @@ module F = (Board: SimpleBoard.T, Gen: Generator.T) => {
       coords
     );
   let coordCount = ({State.coords}) => Array.length(coords);
-  let randomCoord = ({State.coords, shape, scale}) => {
-    let coord = coords[Random.int(Array.length(coords))];
-    Board.tile_center(shape, scale, coord)
+  let randomCoord = ({State.coords}) => {
+    coords[Random.int(Array.length(coords))];
   };
   let allCoords = ({State.coords, shape, scale}) => {
     coords |> Array.map(coord => (coord, Board.tile_center(shape, scale, coord)))
+  };
+  let isCoordInBoard = ({State.coord_map}, coord) => CoordMap.mem(coord, coord_map);
+  let tileCenter = ({State.shape, coord_map, scale} as state, coord) => {
+    if (!isCoordInBoard(state, coord)) {
+      failwith("Invalid coord")
+    } else {
+      Board.tile_center(shape, scale, coord)
+    }
   };
   let distanceFromCoord = ({State.shape, count, coords, coord_map, gen_state}, origin) => {
     let edges = Gen.edges(gen_state);

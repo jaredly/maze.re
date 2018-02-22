@@ -111,7 +111,7 @@ let coordinates = (size) => {
 
 let auto_size = ((width, height), size) => {
   let dim = min(width, height);
-  let rad = size / 2;
+  let rad = size * 2 / 3;
   let rad = rad < 1 ? 1 : rad;
   let scale = dim /. fi(rad * 2);
   (rad, scale, (dim, dim))
@@ -149,12 +149,15 @@ let from_point = (size, scale, (x, y)) => {
   let dx = x -. cx;
   let dy = y -. cy;
   let theta = atan2(dy, dx);
-  /* let theta = theta < 0. ? theta +. tau : theta; */
+  let xoff = theta < 0. ? 1 : 0;
+  let theta = theta < 0. ? theta +. tau : theta;
   let dist = sqrt(dx *. dx +. dy *. dy);
   let y = dist /. scale |> int_of_float;
   let around = theta /. tau *. fi(counts[y]);
   let x = (around) |> int_of_float;
-  let x = x - (theta > pi || theta < 0. ? 1 : 0);
+  let x = x;
+   /* - xoff; */
+  /* (theta > pi || theta < 0. ? 1 : 0); */
   (x, y)
 
 };
