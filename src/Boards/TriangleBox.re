@@ -24,7 +24,7 @@ let auto_size = ((cwidth, cheight), hint_num) => {
 
   /** TODO fix this, width is not equal to height */
   let dim = min(cwidth, cheight);
-  let size = dim /. fi(hint_num);
+  let size = dim /. fi(hint_num) *. 1.2;
   let width = iof(cwidth /. size);
   let height = iof(cheight /. size /. hsq3);
   ((width * 2, height), size, (fi(width) *. size, fi(height) *. size))
