@@ -27,7 +27,7 @@ let auto_size = ((cwidth, cheight), hint_num) => {
   let size = dim /. fi(hint_num) *. 1.2;
   let width = iof(cwidth /. size);
   let height = iof(cheight /. size /. hsq3);
-  ((width * 2, height), size, (fi(width) *. size, fi(height) *. size))
+  ((width * 2 - 1, height), size, (fi(width) *. size, fi(height) *. size *. hsq3))
 };
 
 let offset = (shape, scale, (x, y)) => {
